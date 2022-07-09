@@ -1,63 +1,51 @@
 import { useState } from "react";
 
+const items = [
+  { url: "images/items/p1.webp", code: `p1`, type: "panofori" },
+  { url: "images/items/p2.webp", code: `p2`, type: "panofori" },
+  { url: "images/items/p3.webp", code: `p3`, type: "panofori" },
+  { url: "images/items/p4.webp", code: `p4`, type: "panofori" },
+  { url: "images/items/s1.webp", code: `s1`, type: "sortsaki" },
+  { url: "images/items/s2.webp", code: `s2`, type: "sortsaki" },
+  { url: "images/items/s3.webp", code: `s3`, type: "sortsaki" },
+  { url: "images/items/f1.webp", code: `f1`, type: "fousta" },
+  { url: "images/items/g1.webp", code: `g1`, type: "gileko" },
+  { url: "images/items/g2.webp", code: `g2`, type: "gileko" },
+  { url: "images/items/k1.webp", code: `k1`, type: "kapelo" },
+];
+
 function Page() {
-  const [photo, setPhoto] = useState("/D850-20220603-12_57_03@70 mm.jpg");
-  const [type, setType] = useState("");
+  const [photo, setPhoto] = useState("/images/outfit/A_01_02_c.jpg");
+  const [outfit, setOutfit] = useState({
+    panofori: "",
+    sortsaki: "",
+    fousta: "",
+    gileko: "",
+    kapelo: "",
+  });
+
   return (
-    <div className="bg-slate-800 h-screen  w-screen">
-      <div className="grid p-10  lg:grid-cols-[1fr_2fr] grid-cols-1  gap-4 ">
-        <div className="w-full h-full text-white  rounded-l-2xl bg-black">
-          <img
-            className="w-full h-[90vh] object-scale-down   rounded-l-2xl"
-            src={photo}
-            alt=""
-          />
-        </div>
-
-        {/* filters */}
-        <div className="  w-full bg-slate-700  rounded-r-2xl p-4">
-          <div className="tabs font-extrabold">
-            <a
-              onClick={() => setType("blouza")}
-              className={`tab tab-lifted ${
-                type === "blouza" ? "tab-active" : ""
-              } `}
-            >
-              Μπλούζα
-            </a>
-            <a
-              onClick={() => setType("panteloni")}
-              className={`tab tab-lifted ${
-                type === "panteloni" ? "tab-active" : ""
-              } `}
-            >
-              Παντελόνι
-            </a>
-            <a
-              onClick={() => setType("forema")}
-              className={`tab tab-lifted ${
-                type === "forema" ? "tab-active" : ""
-              } `}
-            >
-              Φόρεμα
-            </a>
-            <a
-              onClick={() => setType("fousta")}
-              className={`tab tab-lifted ${
-                type === "fousta" ? "tab-active" : ""
-              } `}
-            >
-              Φούστα
-            </a>
-          </div>
-
-          <div className="grid gap-2 h-[87vh]  overflow-y-auto grid-cols-6">
-            {[].map((a) => (
-              <div className="bg-slate-600 border hover:border-amber-400 cursor-pointer h-full w-full">
-                <img className="w-full h-40 " alt="" />
-              </div>
-            ))}
-          </div>
+    <div className="bg-slate-800 grid   lg:grid-cols-2 grid-cols-1 h-screen  w-screen">
+      <div className="flex w-full items-center  justify-center bg-black">
+        <img
+          className="w-full h-full aspect-video object-scale-down"
+          src={photo}
+          alt=""
+        />
+      </div>
+      <div className="p-4 overflow-auto">
+        <div className="grid  xl:grid-cols-3 2xl:grid-cols-4 lg:grid-cols-2 grid-cols-1 gap-3 h-full w-full">
+          {items.map((item) => (
+            <button className=" overflow-hidden p-10 border border-base-300 h-full flex items-center justify-center  bg-base-100 shadow ">
+              <img
+                onClick={() =>
+                  setOutfit((s) => ({ ...s, [item.type]: item.code }))
+                }
+                src={item.url}
+                className="aspect-video object-scale-down h-full"
+              />
+            </button>
+          ))}
         </div>
       </div>
     </div>
