@@ -1,190 +1,90 @@
-import { useState } from "react";
 import clsx from "clsx";
-const sets = {};
+import { useState } from "react";
 
-const panoforia = [
-  { url: "images/items/p1.webp", code: `p1`, type: "panofori" },
-  { url: "images/items/p2.webp", code: `p2`, type: "panofori" },
-  { url: "images/items/p3.webp", code: `p3`, type: "panofori" },
-  { url: "images/items/p4.webp", code: `p4`, type: "panofori" },
+// 1 eswroroxuo
+// 2 gileko
+// 3 panoforo
+// 4 zwnari
+// 5 kapelo
+
+type Item = {
+  series?: string;
+  br?: boolean;
+  order?: string;
+  url?: string;
+  name?: string;
+};
+const items: Item[] = [
+  { series: "A", order: "01", url: "/images/items/A01.png", name: "A01" },
+  { series: "B", order: "01", url: "/images/items/B01.png", name: "B01" },
+  { series: "D", order: "01", url: "/images/items/D01.png", name: "D01" },
+
+  { br: true, name: "BR" },
+  { series: "C", order: "02", url: "/images/items/C02.png", name: "C02" },
+  { series: "D", order: "02", url: "/images/items/D02.png", name: "D02" },
+
+  { br: true, name: "BR" },
+
+  { series: "A", order: "03", url: "/images/items/A03.png", name: "A03" },
+  { series: "B", order: "03", url: "/images/items/B03.png", name: "B03" },
+  { series: "C", order: "03", url: "/images/items/C03.png", name: "C03" },
+  { series: "D", order: "03", url: "/images/items/D03.png", name: "D03" },
+  { br: true, name: "BR" },
+
+  { series: "C", order: "04", url: "/images/items/C04.png", name: "C04" },
+  { series: "D", order: "04", url: "/images/items/D04.png", name: "D04" },
+
+  { br: true, name: "BR" },
+  { series: "C", order: "05", url: "/images/items/D05.png", name: "C05" },
+  { series: "D", order: "05", url: "/images/items/D05.png", name: "D05" },
 ];
-
-const gileka = [
-  { url: "images/items/g1.webp", code: `g1`, type: "gileko" },
-  { url: "images/items/g2.webp", code: `g2`, type: "gileko" },
-];
-
-const kapela = [{ url: "images/items/k1.webp", code: `k1`, type: "kapelo" }];
-
-const sortsakia = [
-  { url: "images/items/s1.webp", code: `s1`, type: "katw" },
-  { url: "images/items/s2.webp", code: `s2`, type: "katw" },
-  { url: "images/items/s3.webp", code: `s3`, type: "katw" },
-  { url: "images/items/f1.webp", code: `s4`, type: "katw" },
-];
-
-type Outfit = "panofori" | "gileko" | "katw" | "kapelo";
 
 function Page() {
-  const [outfit, setOutfit] = useState<Record<Outfit, string | null>>({
-    panofori: null,
-    gileko: null,
-    katw: null,
-    kapelo: null,
-  });
+  const [series, setSeries] = useState<Item[]>([]);
+  const [f] = series ?? [{ series: "A", order: "", url: "", name: "" }];
 
-  const photoUrl = `/images/outfit/${Object.values(outfit)
-    .filter((e) => e)
-    .join("_")}.jpg`;
-
+  const url = `/images/outfits/${f?.series}_${series
+    .map((e) => e.order)
+    .join("_")}_c.jpg`;
   return (
-    <div className="bg-slate-800 grid gap-4 p-4   lg:grid-cols-2 grid-cols-1 h-screen  w-screen">
+    <div className="grid gap-4 p-4   lg:grid-cols-2 grid-cols-1 h-screen  w-screen">
       <div className="flex w-full items-center  justify-center bg-black">
         <img
           className="w-full h-full aspect-video object-scale-down"
-          src={photoUrl}
+          src={url}
           alt=""
         />
       </div>
       <div className="overflow-auto grid">
-        <div className="divider">Panofori</div>
-        <div className="grid grid-cols-4 gap-4">
-          {panoforia.map((item) => (
-            <button
-              onClick={() =>
-                setOutfit((s) => ({
-                  ...s,
-                  [item.type as Outfit]:
-                    item.code === s.panofori ? null : item.code,
-                }))
-              }
-              key={item.url}
-              className={clsx(
-                "overflow-hidden p-6 border border-base-300 h-full flex items-center justify-center  bg-base-100 shadow ",
-                {
-                  "bg-base-300 border-1 border-yellow-200":
-                    item.code === outfit[item?.type as Outfit],
-                }
-              )}
-            >
-              <img
-                src={item.url}
-                className="aspect-video object-scale-down  h-full"
-              />
-            </button>
-          ))}
-        </div>
-        <div className="divider">Sortsaki</div>
-        <div className="grid grid-cols-4 gap-4">
-          {sortsakia.map((item) => (
-            <button
-              onClick={() =>
-                setOutfit((s) => ({
-                  ...s,
-                  [item.type as Outfit]:
-                    item.code === s.katw ? null : item.code,
-                }))
-              }
-              key={item.url}
-              className={clsx(
-                "overflow-hidden p-6 border border-base-300 h-full flex items-center justify-center  bg-base-100 shadow ",
-                {
-                  "bg-base-300 border-1 border-yellow-200":
-                    item.code === outfit[item?.type as Outfit],
-                }
-              )}
-            >
-              <img
-                src={item.url}
-                className="aspect-video object-scale-down  h-full"
-              />
-            </button>
-          ))}
-        </div>
-        <div className="divider">Gileka</div>
-        <div className="grid grid-cols-4 gap-4">
-          {gileka.map((item) => (
-            <button
-              onClick={() =>
-                setOutfit((s) => ({
-                  ...s,
-                  [item.type as Outfit]:
-                    item.code === s.gileko ? null : item.code,
-                }))
-              }
-              key={item.url}
-              className={clsx(
-                "overflow-hidden p-6 border border-base-300 h-full flex items-center justify-center  bg-base-100 shadow ",
-                {
-                  "bg-base-300 border-1 border-yellow-200":
-                    item.code === outfit[item?.type as Outfit],
-                }
-              )}
-            >
-              <img
-                src={item.url}
-                className="aspect-video object-scale-down  h-full"
-              />
-            </button>
-          ))}
-        </div>
-        <div className="divider">Kapela</div>
-        <div className="grid grid-cols-4 gap-4">
-          {kapela.map((item) => (
-            <button
-              onClick={() =>
-                setOutfit((s) => ({
-                  ...s,
-                  [item.type as Outfit]:
-                    item.code === s.kapelo ? null : item.code,
-                }))
-              }
-              key={item.url}
-              className={clsx(
-                "overflow-hidden p-6 border border-base-300 h-full flex items-center justify-center  bg-base-100 shadow ",
-                {
-                  "bg-base-300 border-1 border-yellow-200":
-                    item.code === outfit[item?.type as Outfit],
-                }
-              )}
-            >
-              <img
-                src={item.url}
-                className="aspect-video object-scale-down  h-full"
-              />
-            </button>
-          ))}
-        </div>
-        {/* <div className="grid  xl:grid-cols-3 2xl:grid-cols-4 lg:grid-cols-2 grid-cols-1 gap-3 h-full w-full"> */}
-        {/* {items.map((item) =>
-            item?.type ? (
+        <div className="grid grid-cols-5 gap-2">
+          {items.map((item) =>
+            item.br ? (
+              <div className="divider col-span-5">{item.name}</div>
+            ) : (
               <button
-              onClick={() =>
-                setOutfit((s) => ({
-                  ...s,
-                  [item.type as Outfit]:
-                  item.code === s[item.type] ? null : item.code,
-                }))
-                }
+                onClick={() => {
+                  setSeries((s) => [...s, item]);
+                }}
                 key={item.url}
                 className={clsx(
-                  "overflow-hidden p-14 border border-base-300 h-full flex items-center justify-center  bg-base-100 shadow ",
-                  {
-                    "bg-base-300 border-1 border-yellow-200":
-                      item.code === outfit[item?.type as Outfit],
-                  }
+                  "overflow-hidden relative p-3  border disabled:opacity-20 disabled:cursor-not-allowed border-base-300 h-full flex items-center justify-center  bg-base-100 shadow "
+                  // {
+                  //   "bg-base-300 border-1 border-yellow-200":
+                  //     item.code === outfit[item?.type as Outfit],
+                  // }
                 )}
               >
                 <img
                   src={item.url}
-                  className="aspect-video object-scale-down h-full"
+                  className="aspect-video  relative -top-4 object-scale-down  h-full"
                 />
+                <div className="absolute bottom-0 text-center   w-full flex items-end justify-center bg-black bg-opacity-25 left-0">
+                  {item?.name}
+                </div>
               </button>
-            ) : (
-              <div className="divider" />
             )
-          )} */}
-        {/* </div> */}
+          )}
+        </div>
       </div>
     </div>
   );
